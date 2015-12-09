@@ -9,8 +9,8 @@ def build_root
 end
 
 def mirror
-  "http://mirrors.jenkins-ci.org"
-  #"http://ftp.osuosl.org/pub/jenkins"
+  #"http://mirrors.jenkins-ci.org"
+  "http://mirror.xmission.com/jenkins"
 end
 
 def oneops
@@ -18,7 +18,8 @@ def oneops
 end
 
 def updates
-  "http://updates.jenkins-ci.org/stable"
+  #"http://updates.jenkins-ci.org/stable"
+  "http://mirror.xmission.com/jenkins/updates"
 end
 
 ENV['JENKINS_HOME'] = build_root
