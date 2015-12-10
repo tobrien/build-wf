@@ -28,7 +28,7 @@
         </hudson.model.StringParameterDefinition>
       </parameterDefinitions>
     </hudson.model.ParametersDefinitionProperty>
-    <jenkins.plugins.slack.SlackNotifier_-SlackJobProperty plugin="slack@1.8">
+    <jenkins.plugins.slack.SlackNotifier_-SlackJobProperty plugin="slack@1.8.1">
       <teamDomain></teamDomain>
       <token></token>
       <room></room>
@@ -54,16 +54,12 @@
     global_parameters.add(new hudson.model.BooleanParameterValue(&apos;TAG&apos;,TAG.toBoolean()));
     global_parameters.add(new hudson.model.StringParameterValue(&apos;PUSH_TAG&apos;,PUSH_TAG));
 
-    parallel oneops: {
-	build job:&apos;oneops&apos;, parameters:global_parameters	
-    }, app: {
+    parallel app: {
 	build job:&apos;app&apos;, parameters:global_parameters
     }, dbschema: {
 	build job:&apos;db-schema&apos;, parameters:global_parameters
     }, cmsdal: {
 	build job:&apos;cmsdal&apos;, parameters:global_parameters
-    }, flume: {
-	build job:&apos;flume&apos;, parameters:global_parameters	
     };
 
     build job:&apos;commons&apos;, parameters:global_parameters;
@@ -100,7 +96,6 @@
 
     build job:&apos;cms-db-package&apos;, parameters:global_parameters;
 
-    build job:&apos;cms-db-package&apos;, parameters:global_parameters;	
 }
 </script>
     <sandbox>false</sandbox>
