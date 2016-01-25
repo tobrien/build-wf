@@ -76,7 +76,7 @@
     </hudson.plugins.copyartifact.CopyArtifact>
     <hudson.plugins.copyartifact.CopyArtifact plugin="copyartifact@1.37">
       <project>daq</project>
-      <filter>**/daq-*.war, **/daq-*.jar, **/collector-config.tar.gz</filter>
+      <filter>**/daq-*.war, **/daq-*.jar</filter>
       <target>oneops/dist</target>
       <excludes></excludes>
       <selector class="hudson.plugins.copyartifact.StatusBuildSelector"/>

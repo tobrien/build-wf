@@ -104,7 +104,7 @@
   <reporters/>
   <publishers>
     <hudson.tasks.ArtifactArchiver>
-      <artifacts>**/daq-*.war, **/daq-*.jar, **/collector-config.tar.gz</artifacts>
+      <artifacts>**/daq-*.war, **/daq-*.jar</artifacts>
       <allowEmptyArchive>false</allowEmptyArchive>
       <onlyIfSuccessful>false</onlyIfSuccessful>
       <fingerprint>false</fingerprint>
@@ -145,11 +145,7 @@
     </org.jenkinsci.plugins.buildnamesetter.BuildNameSetter>
   </buildWrappers>
   <prebuilders/>
-  <postbuilders>
-    <hudson.tasks.Shell>
-      <command>cd daq-collector ;tar czf collector-config.tar.gz conf/*</command>
-    </hudson.tasks.Shell>
-  </postbuilders>
+  <postbuilders/>
   <runPostStepsIfResult>
     <name>SUCCESS</name>
     <ordinal>0</ordinal>
