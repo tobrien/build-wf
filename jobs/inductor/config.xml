@@ -14,7 +14,7 @@
       <optOut>false</optOut>
     </com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty>
     <com.coravy.hudson.plugins.github.GithubProjectProperty plugin="github@1.10">
-      <projectUrl>http://github.com/kloopz/inductor/</projectUrl>
+      <projectUrl>http://github.com/oneops/inductor/</projectUrl>
     </com.coravy.hudson.plugins.github.GithubProjectProperty>
     <hudson.model.ParametersDefinitionProperty>
       <parameterDefinitions>
@@ -104,7 +104,7 @@
   <reporters/>
   <publishers>
     <hudson.tasks.ArtifactArchiver>
-      <artifacts>**/inductor-*.jar, **/inductor-*.gem</artifacts>
+      <artifacts>**/inductor-*.jar</artifacts>
       <allowEmptyArchive>false</allowEmptyArchive>
       <onlyIfSuccessful>false</onlyIfSuccessful>
       <fingerprint>false</fingerprint>
@@ -144,11 +144,7 @@
     </org.jenkinsci.plugins.buildnamesetter.BuildNameSetter>
   </buildWrappers>
   <prebuilders/>
-  <postbuilders>
-    <hudson.tasks.Shell>
-      <command>gem build inductor.gemspec</command>
-    </hudson.tasks.Shell>
-  </postbuilders>
+  <postbuilders/>
   <runPostStepsIfResult>
     <name>SUCCESS</name>
     <ordinal>0</ordinal>
