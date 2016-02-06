@@ -22,13 +22,17 @@ def updates
   "http://mirror.xmission.com/jenkins/updates"
 end
 
+def version
+  "1.642.1"
+end
+
 ENV['JENKINS_HOME'] = build_root
 ENV['JENKINS_PORT'] = ENV['JENKINS_PORT'] || '3001'
 ENV['JENKINS_URL'] = ENV['JENKINS_URL'] || "http://localhost:#{ENV['JENKINS_PORT']}"
 
 desc "install jenkins war"
 task :war do
-  url = "#{mirror}/war-stable/1.580.3/jenkins.war"
+  url = "#{mirror}/war-stable/#{version}/jenkins.war"
   puts "Downloading jenkins war: #{url}"
   File.open("jenkins.war", "wb") do |war_file|
     open(url, 'rb') do |read_file|
