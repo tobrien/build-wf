@@ -41,7 +41,7 @@ task :war do
   end
   system("java", "-jar", "jenkins.war", "--version")
 end
-  
+
 desc "install jenkins plugins"
 task :plugins do
   FileUtils.mkdir_p('plugins')
@@ -154,7 +154,7 @@ task :start do
   logdir = File.join(build_root, "log")
   FileUtils.mkdir_p javatmp
   FileUtils.mkdir_p logdir
-  cmd = ["java", "-XX:PermSize=512M", "-XX:MaxPermSize=2048M", "-Xmn128M", "-Xms512M", "-Xmx2048M", "-Djava.io.tmpdir=#{javatmp}", "-jar", WAR_LOCATION]
+  cmd = ["java", "-XX:PermSize=512M", "-XX:MaxPermSize=512M", "-Xmn128M", "-Xms512M", "-Xmx512M", "-Djava.io.tmpdir=#{javatmp}", "-jar", WAR_LOCATION]
   cmd << "--httpPort=#{httpPort}"
   cmd << "--ajp13Port=#{ajp13Port}"
   cmd << "--logfile=#{logdir}/jenkins.log"
@@ -207,19 +207,19 @@ namespace :build do
     puts "Build job all\n"
     system(*cmd)
   end
-  
+
   desc "Build job package"
   task :package do
     cmd = ["java", "-jar", CLI_LOCATION, "build", "package", "-s", "-v", "-w"]
     puts "Build job package\n"
     system(*cmd)
   end
-  
+
   task :run do
     name = ARGV.last
     cmd = ["java", "-jar", CLI_LOCATION, "build", name, "-s", "-v", "-w"]
     puts "Build job #{name}\n"
-    system(*cmd)  
+    system(*cmd)
     task name.to_sym do ; end
   end
 end
@@ -229,4 +229,3 @@ task :build => ['build:all', 'build:package']
 
 desc "Start a build server, build all jobs and stop the server"
 task :all => ['server','build','stop','kill']
-  
