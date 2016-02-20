@@ -1,4 +1,6 @@
+icon-shim
 credentials
+plain-credentials
 ssh-credentials
 ssh-agent
 matrix-project
@@ -19,6 +21,8 @@ run-condition
 flexible-publish
 build-keeper-plugin
 conditional-buildstep
+jackson2-api
+aws-java-sdk
 s3
 ruby
 ruby-runtime
