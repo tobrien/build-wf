@@ -33,7 +33,7 @@ ansicolor
 instant-messaging
 jabber
 notification
-slack
+slack:1.8.1
 script-security
 durable-task
 git-server
