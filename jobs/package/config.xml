@@ -220,6 +220,8 @@ shasum -a 256 oneops-$VERSION.tar.gz &gt; oneops-$VERSION.tar.gz.sha1</command>
   <buildWrappers>
     <org.jenkinsci.plugins.buildnamesetter.BuildNameSetter plugin="build-name-setter@1.5.1">
       <template>${ENV,var=&quot;VERSION&quot;}</template>
+      <runAtStart>true</runAtStart>
+      <runAtEnd>true</runAtEnd>
     </org.jenkinsci.plugins.buildnamesetter.BuildNameSetter>
   </buildWrappers>
 </project>
