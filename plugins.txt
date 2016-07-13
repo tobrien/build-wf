@@ -6,7 +6,7 @@ ssh-agent
 matrix-project
 scm-api
 git-client
-git
+git:2.4.2
 github
 github-api
 github-oauth
