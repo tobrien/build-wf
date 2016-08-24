@@ -5,6 +5,8 @@ ssh-credentials
 ssh-agent
 matrix-project
 scm-api
+bouncycastle-api
+structs
 git-client
 git:2.4.2
 github
