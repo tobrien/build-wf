@@ -182,6 +182,15 @@
       <flatten>true</flatten>
       <doNotFingerprintArtifacts>false</doNotFingerprintArtifacts>
     </hudson.plugins.copyartifact.CopyArtifact>
+    <hudson.plugins.copyartifact.CopyArtifact plugin="copyartifact@1.37">
+      <project>batch</project>
+      <filter>**/batch.tar.gz, **/batch.tar.gz.sha2</filter>
+      <target></target>
+      <excludes></excludes>
+      <selector class="hudson.plugins.copyartifact.StatusBuildSelector"/>
+      <flatten>true</flatten>
+      <doNotFingerprintArtifacts>false</doNotFingerprintArtifacts>
+    </hudson.plugins.copyartifact.CopyArtifact>
     <hudson.tasks.Shell>
       <command>echo $VERSION &gt; oneops/.version
 echo $BUILD_ID &gt; oneops/.build</command>
@@ -228,6 +237,9 @@ shasum -a 256 oneops-$VERSION.tar.gz &gt; oneops-$VERSION.tar.gz.sha1</command>
 
         tar -czvf oneops-daq-$VERSION.tar.gz oneops/.version oneops/.build oneops/dist/daq-collector-1.0.0.jar oneops/dist/daq-common-1.0.0.jar
         shasum -a 256 oneops-daq-$VERSION.tar.gz &gt;oneops-daq-$VERSION.sha1
+
+        # Packaging batch
+        mv batch.tar.gz oneops-batch-$VERSION.tar.gz
       </command>
     </hudson.tasks.Shell>
     <org.jenkinsci.plugins.conditionalbuildstep.singlestep.SingleConditionalBuilder plugin="conditional-buildstep@1.3.3">

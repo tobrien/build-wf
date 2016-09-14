@@ -74,11 +74,9 @@
     build job:&apos;transmitter&apos;, parameters:global_parameters;
     build job:&apos;cms-admin&apos;, parameters:global_parameters;
     build job:&apos;transistor&apos;, parameters:global_parameters;
-
+    build job:&apos;batch&apos;, parameters:global_parameters;
     build job:&apos;oneops-admin&apos;, parameters:global_parameters;
-	
-    build job:&apos;package&apos;, parameters:global_parameters;	
-
+    build job:&apos;package&apos;, parameters:global_parameters;
     build job:&apos;cms-db-package&apos;, parameters:global_parameters;	
 }
 </script>
