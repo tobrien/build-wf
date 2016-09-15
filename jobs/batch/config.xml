@@ -1,0 +1,140 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+    <actions/>
+    <description>Build job for oneops batch repo (https://github.com/oneops/batch)</description>
+    <keepDependencies>false</keepDependencies>
+    <properties>
+        <jenkins.model.BuildDiscarderProperty>
+            <strategy class="hudson.tasks.LogRotator">
+                <daysToKeep>-1</daysToKeep>
+                <numToKeep>3</numToKeep>
+                <artifactDaysToKeep>-1</artifactDaysToKeep>
+                <artifactNumToKeep>-1</artifactNumToKeep>
+            </strategy>
+        </jenkins.model.BuildDiscarderProperty>
+        <com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty plugin="naginator@1.16.1">
+            <optOut>false</optOut>
+        </com.chikli.hudson.plugin.naginator.NaginatorOptOutProperty>
+        <jenkins.plugins.slack.SlackNotifier_-SlackJobProperty plugin="slack@1.8.1">
+            <teamDomain></teamDomain>
+            <token></token>
+            <room></room>
+            <startNotification>false</startNotification>
+            <notifySuccess>false</notifySuccess>
+            <notifyAborted>false</notifyAborted>
+            <notifyNotBuilt>false</notifyNotBuilt>
+            <notifyUnstable>false</notifyUnstable>
+            <notifyFailure>false</notifyFailure>
+            <notifyBackToNormal>false</notifyBackToNormal>
+            <notifyRepeatedFailure>false</notifyRepeatedFailure>
+            <includeTestSummary>false</includeTestSummary>
+            <showCommitList>false</showCommitList>
+            <includeCustomMessage>false</includeCustomMessage>
+            <customMessage></customMessage>
+        </jenkins.plugins.slack.SlackNotifier_-SlackJobProperty>
+        <hudson.model.ParametersDefinitionProperty>
+            <parameterDefinitions>
+                <hudson.model.StringParameterDefinition>
+                    <name>REF</name>
+                    <description></description>
+                    <defaultValue>master</defaultValue>
+                </hudson.model.StringParameterDefinition>
+                <hudson.model.StringParameterDefinition>
+                    <name>VERSION</name>
+                    <description></description>
+                    <defaultValue>continuous</defaultValue>
+                </hudson.model.StringParameterDefinition>
+                <hudson.model.BooleanParameterDefinition>
+                    <name>TAG</name>
+                    <description></description>
+                    <defaultValue>false</defaultValue>
+                </hudson.model.BooleanParameterDefinition>
+                <hudson.model.StringParameterDefinition>
+                    <name>PUSH_TAG</name>
+                    <description></description>
+                    <defaultValue></defaultValue>
+                </hudson.model.StringParameterDefinition>
+            </parameterDefinitions>
+        </hudson.model.ParametersDefinitionProperty>
+    </properties>
+    <scm class="hudson.plugins.git.GitSCM" plugin="git@2.4.2">
+        <configVersion>2</configVersion>
+        <userRemoteConfigs>
+            <hudson.plugins.git.UserRemoteConfig>
+                <name>origin</name>
+                <url>$GITHUB_URL/batch.git</url>
+            </hudson.plugins.git.UserRemoteConfig>
+        </userRemoteConfigs>
+        <branches>
+            <hudson.plugins.git.BranchSpec>
+                <name>$REF</name>
+            </hudson.plugins.git.BranchSpec>
+        </branches>
+        <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+        <submoduleCfg class="list"/>
+        <extensions>
+            <hudson.plugins.git.extensions.impl.PerBuildTag/>
+        </extensions>
+    </scm>
+    <canRoam>true</canRoam>
+    <disabled>false</disabled>
+    <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+    <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+    <triggers/>
+    <concurrentBuild>false</concurrentBuild>
+    <builders>
+        <hudson.tasks.Shell>
+            <command>rm -f batch.tar.gz batch.tar.gz.sha2
+                echo $REF-$VERSION &gt; .version
+                echo $BUILD_TAG &gt; .build
+                tar -cvzf  batch.tar.gz --exclude=&apos;*.md&apos; * .version .build
+                shasum -a 256 batch.tar.gz &gt; batch.tar.gz.sha2</command>
+        </hudson.tasks.Shell>
+    </builders>
+    <publishers>
+        <hudson.tasks.ArtifactArchiver>
+            <artifacts>**/*batch.tar.gz,batch.tar.gz.sha2</artifacts>
+            <allowEmptyArchive>false</allowEmptyArchive>
+            <onlyIfSuccessful>false</onlyIfSuccessful>
+            <fingerprint>false</fingerprint>
+            <defaultExcludes>true</defaultExcludes>
+            <caseSensitive>true</caseSensitive>
+        </hudson.tasks.ArtifactArchiver>
+        <org.jenkins__ci.plugins.flexible__publish.FlexiblePublisher plugin="flexible-publish@0.15.2">
+            <publishers>
+                <org.jenkins__ci.plugins.flexible__publish.ConditionalPublisher>
+                    <condition class="org.jenkins_ci.plugins.run_condition.core.BooleanCondition" plugin="run-condition@1.0">
+                        <token>${ENV,var=&quot;TAG&quot;}</token>
+                    </condition>
+                    <publisherList>
+                        <hudson.plugins.git.GitPublisher plugin="git@2.4.2">
+                            <configVersion>2</configVersion>
+                            <pushMerge>false</pushMerge>
+                            <pushOnlyIfSuccess>true</pushOnlyIfSuccess>
+                            <forcePush>false</forcePush>
+                            <tagsToPush>
+                                <hudson.plugins.git.GitPublisher_-TagToPush>
+                                    <targetRepoName>origin</targetRepoName>
+                                    <tagName>$PUSH_TAG</tagName>
+                                    <tagMessage>Successful build $BUILD_TAG</tagMessage>
+                                    <createTag>true</createTag>
+                                    <updateTag>true</updateTag>
+                                </hudson.plugins.git.GitPublisher_-TagToPush>
+                            </tagsToPush>
+                        </hudson.plugins.git.GitPublisher>
+                    </publisherList>
+                    <runner class="org.jenkins_ci.plugins.run_condition.BuildStepRunner$DontRun" plugin="run-condition@1.0"/>
+                    <executionStrategy class="org.jenkins_ci.plugins.flexible_publish.strategy.FailFastExecutionStrategy"/>
+                </org.jenkins__ci.plugins.flexible__publish.ConditionalPublisher>
+            </publishers>
+        </org.jenkins__ci.plugins.flexible__publish.FlexiblePublisher>
+    </publishers>
+    <buildWrappers>
+        <hudson.plugins.ansicolor.AnsiColorBuildWrapper plugin="ansicolor@0.4.2">
+            <colorMapName>xterm</colorMapName>
+        </hudson.plugins.ansicolor.AnsiColorBuildWrapper>
+        <org.jenkinsci.plugins.buildnamesetter.BuildNameSetter plugin="build-name-setter@1.5.1">
+            <template>${GIT_REVISION,length=8}</template>
+        </org.jenkinsci.plugins.buildnamesetter.BuildNameSetter>
+    </buildWrappers>
+</project>
