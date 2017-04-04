@@ -84,7 +84,7 @@
     <groupId>com.oneops</groupId>
     <artifactId>controller</artifactId>
   </rootModule>
-  <goals>clean package -Dmaven.test.skip=true</goals>
+  <goals>clean package -Dmaven.test.skip=true -DgitTag=${VERSION}</goals>
   <aggregatorStyleBuild>true</aggregatorStyleBuild>
   <incrementalBuild>false</incrementalBuild>
   <localRepository class="hudson.maven.local_repo.DefaultLocalRepositoryLocator"/>
