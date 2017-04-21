@@ -85,7 +85,7 @@
     <groupId>com.kloopz</groupId>
     <artifactId>antenna</artifactId>
   </rootModule>
-  <goals>clean package</goals>
+  <goals>clean package -DgitTag=${VERSION}</goals>
   <aggregatorStyleBuild>true</aggregatorStyleBuild>
   <incrementalBuild>false</incrementalBuild>
   <localRepository class="hudson.maven.local_repo.DefaultLocalRepositoryLocator"/>
