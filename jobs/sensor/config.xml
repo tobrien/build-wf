@@ -85,7 +85,7 @@
     <groupId>com.oneops</groupId>
     <artifactId>sensor</artifactId>
   </rootModule>
-  <goals>clean package -Pesper-external</goals>
+  <goals>clean package -Pesper-external -DgitTag=${VERSION}</goals>
   <aggregatorStyleBuild>true</aggregatorStyleBuild>
   <incrementalBuild>false</incrementalBuild>
   <localRepository class="hudson.maven.local_repo.DefaultLocalRepositoryLocator"/>
